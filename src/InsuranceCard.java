@@ -1,12 +1,43 @@
+import java.util.Date;
 
 public class InsuranceCard {
-    /**
-     * An insurance card contains card number (10 digits), card holder, policy
-     * owner, and an expiraon date (Note that one card can only have one holder).
-     */
     private String cardNumber;
-}
+    private String holderID;
+    private String ownerID;
+    private Date exprirationDate;
 
-// ((3.43*131) + (x*20))/151 = 3.5
-// 3.43*131 + 20x = 3.5*151
-// x = (3.5*151 - 3.43*131)/20
+    public InsuranceCard(String cardNumber, String holderID, String ownerID, Date exprirationDate) {
+        this.cardNumber = cardNumber;
+        this.holderID = holderID;
+        this.ownerID = ownerID;
+        this.exprirationDate = exprirationDate;
+    }
+
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    public String getHolderID() {
+        return holderID;
+    }
+
+    public void setHolderID(String holderID) {
+        this.holderID = holderID;
+    }
+
+    public String getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    public Date getExprirationDate() {
+        return exprirationDate;
+    }
+
+    public void setExprirationDate(Date exprirationDate) {
+        this.exprirationDate = exprirationDate;
+    }
+}
