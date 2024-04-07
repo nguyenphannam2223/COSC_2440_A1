@@ -15,10 +15,10 @@ public class ClaimProcessManager {
         claims.add(claim);
     }
 
-    public void updateClaim(Claim claim) {
-        for (int i = 0; i < claims.size(); i++) {
-            if (claims.get(i).getClaimID().equals(claim.getClaimID())) {
-                claims.set(i, claim);
+    public void updateClaim(Claim newClaim) {
+        for (Claim claim : claims) {
+            if (claim.getClaimID().equals(newClaim.getClaimID())) {
+                claim.adapt(newClaim);
                 break;
             }
         }
