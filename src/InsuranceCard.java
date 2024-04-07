@@ -1,5 +1,8 @@
 import java.util.Date;
 
+/**
+ * @author <Phan Nam Nguyen - s3873792>
+ */
 public class InsuranceCard {
     private String cardNumber;
     private String holderID;
