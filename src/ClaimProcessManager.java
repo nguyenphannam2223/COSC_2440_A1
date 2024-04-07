@@ -15,6 +15,15 @@ public class ClaimProcessManager {
         claims.add(claim);
     }
 
+    public void updateClaim(Claim claim) {
+        for (int i = 0; i < claims.size(); i++) {
+            if (claims.get(i).getClaimID().equals(claim.getClaimID())) {
+                claims.set(i, claim);
+                break;
+            }
+        }
+    }
+
     public void removeClaim(String claimID) {
         claims.removeIf(claim -> claim.getClaimID().equals(claimID));
     }
