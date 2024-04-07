@@ -97,4 +97,15 @@ public class Claim {
     public void setReceiverBankInfo(String receiverBankInfo) {
         this.receiverBankInfo = receiverBankInfo;
     }
+
+    public void adapt(Claim claim) {
+        this.claimID = claim.getClaimID();
+        this.claimDate = claim.getClaimDate();
+        this.cardNumber = claim.getCardNumber();
+        this.examDate = claim.getExamDate();
+        this.documents = claim.getDocuments();
+        this.claimAmount = claim.getClaimAmount();
+        this.status = claim.getStatus();
+        this.receiverBankInfo = claim.getReceiverBankInfo();
+    }
 }
