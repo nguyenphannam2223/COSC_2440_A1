@@ -11,6 +11,15 @@ public class ClaimProcessManager {
         claims = new ArrayList<>();
     }
 
+    public boolean containsClaim(String claimID) {
+        for (Claim claim : claims) {
+            if (claim.getClaimID().equals(claimID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addClaim(Claim claim) {
         claims.add(claim);
     }
@@ -25,7 +34,12 @@ public class ClaimProcessManager {
     }
 
     public void removeClaim(String claimID) {
-        claims.removeIf(claim -> claim.getClaimID().equals(claimID));
+        for (Claim claim : claims) {
+            if (claim.getClaimID().equals(claimID)) {
+                claims.remove(claim);
+                break;
+            }
+        }
     }
 
     public Claim getClaimByID(String claimID) {

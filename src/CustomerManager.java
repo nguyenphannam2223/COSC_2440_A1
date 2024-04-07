@@ -11,6 +11,15 @@ public class CustomerManager {
         this.customers = new ArrayList<>();
     }
 
+    public boolean containsCustomer(String id) {
+        for (Customer customer : customers) {
+            if (customer.getId().equals(id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addCustomer(Customer customer) {
         customers.add(customer);
     }
