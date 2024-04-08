@@ -10,7 +10,10 @@ public class Utils {
     public static final int CLAIM_ID_LENGTH = 10;
     public static final String CUSTOMER_HEADER_FORMAT = "%-10s\t%-15s\t%-10s\t%-20s\n";
     public static final String CUSTOMER_RECORD_FORMAT = "%-10s\t%-15s\t%-10s\t%-20d";
-    public static final String CARD_HEADER_FORMAT = "%-15s\t%-15s\t%-15s\t%-20s\n";
+
+    public static final String CARD_HEADER_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
+    public static final String CARD_RECORD_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
+
     public static final String CUSTOMER_DATA_FILE = "customers.csv";
     public static final String CLAIM_DATA_FILE = "claims.csv";
     public static final String INSURANCE_DATA_FILE = "insurances.csv";

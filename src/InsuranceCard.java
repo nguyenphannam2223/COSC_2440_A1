@@ -1,5 +1,7 @@
 import java.util.Date;
 
+import javax.rmi.CORBA.Util;
+
 /**
  * @author <Phan Nam Nguyen - s3873792>
  */
@@ -42,5 +44,17 @@ public class InsuranceCard {
 
     public void setExprirationDate(Date exprirationDate) {
         this.exprirationDate = exprirationDate;
+    }
+
+    public String repr() {
+        return "Insurance Card Number: " + cardNumber + "\n" +
+                "Holder ID: " + holderID + "\n" +
+                "Owner ID: " + ownerID + "\n" +
+                "Expiration Date: " + exprirationDate + "\n";
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Utils.CARD_RECORD_FORMAT, cardNumber, holderID, ownerID, exprirationDate);
     }
 }
