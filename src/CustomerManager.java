@@ -6,9 +6,17 @@ import java.util.List;
  */
 public class CustomerManager {
     private List<Customer> customers;
+    private static CustomerManager instance;
 
-    public CustomerManager() {
+    private CustomerManager() {
         this.customers = new ArrayList<>();
+    }
+
+    public static CustomerManager getInstance() {
+        if (instance == null) {
+            instance = new CustomerManager();
+        }
+        return instance;
     }
 
     public boolean containsCustomer(String id) {

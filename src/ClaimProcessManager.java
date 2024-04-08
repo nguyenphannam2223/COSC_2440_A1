@@ -6,9 +6,17 @@ import java.util.List;
  */
 public class ClaimProcessManager {
     private List<Claim> claims;
+    private static ClaimProcessManager instance;
 
-    public ClaimProcessManager() {
+    private ClaimProcessManager() {
         claims = new ArrayList<>();
+    }
+
+    public static ClaimProcessManager getInstance() {
+        if (instance == null) {
+            instance = new ClaimProcessManager();
+        }
+        return instance;
     }
 
     public boolean containsClaim(String claimID) {

@@ -22,7 +22,7 @@ public class PolicyHolder extends Customer {
 
     @Override
     public String getCustomerType() {
-        return "Policy Holder";
+        return "1";
     }
 
     @Override

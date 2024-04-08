@@ -8,7 +8,7 @@ public class Dependent extends Customer {
 
     @Override
     public String getCustomerType() {
-        return "Dependent";
+        return "2";
     }
 
     @Override

@@ -1,3 +1,6 @@
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class Utils {
@@ -7,6 +10,9 @@ public class Utils {
     public static final int CLAIM_ID_LENGTH = 10;
     public static final String CUSTOMER_HEADER_FORMAT = "%-10s\t%-15s\t%-10s\t%-20s\n";
     public static final String CUSTOMER_RECORD_FORMAT = "%-10s\t%-15s\t%-10s\t%-20d";
+    public static final String CUSTOMER_DATA_FILE = "customers.csv";
+    public static final String CLAIM_DATA_FILE = "claims.csv";
+    public static final String INSURANCE_DATA_FILE = "insurances.csv";
 
     private static boolean isValidID(String ID, int length) {
         return ID.matches("[0-9]{" + length + "}");
@@ -52,5 +58,23 @@ public class Utils {
 
     public static String readString() {
         return reader.nextLine();
+    }
+
+    public static PrintWriter getFileWriter(String fileName) {
+        try {
+            return new PrintWriter(new FileWriter(fileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Scanner getFileReader(String fileName) {
+        try {
+            return new Scanner(new FileReader(fileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

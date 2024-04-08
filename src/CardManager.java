@@ -6,9 +6,17 @@ import java.util.List;
  */
 public class CardManager {
     private List<InsuranceCard> cards;
+    private static CardManager instance;
 
-    public CardManager() {
+    private CardManager() {
         this.cards = new ArrayList<>();
+    }
+
+    public static CardManager getInstance() {
+        if (instance == null) {
+            instance = new CardManager();
+        }
+        return instance;
     }
 
     public void addCard(InsuranceCard card) {
