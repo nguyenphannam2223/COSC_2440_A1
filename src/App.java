@@ -6,6 +6,7 @@ public class App {
     private static ClaimProcessManager claimProcessManager = ClaimProcessManager.getInstance();
     private static CardManager cardManager = CardManager.getInstance();
 
+    // Customer Management
     private static void storeCustomer() {
         PrintWriter writer = Utils.getFileWriter("customers.csv");
         for (Customer customer : customerManager.getCustomers()) {
@@ -42,6 +43,15 @@ public class App {
 
             customerManager.addCustomer(customer);
         }
+    }
+
+    private static void customerMenu() {
+        System.out.println("1. Add a new customer");
+        System.out.println("2. Remove a customer");
+        System.out.println("3. Update a customer");
+        System.out.println("4. Display all customers");
+        System.out.println("5. Find customer");
+        System.out.println("0. Back to main menu");
     }
 
     private static void addCustomer() {
@@ -113,7 +123,6 @@ public class App {
     }
 
     private static void findCustomer() {
-        System.out.print("Enter customer ID: ");
         String ID = Utils.readCustomerID();
 
         if (!customerManager.containsCustomer(ID)) {
@@ -123,15 +132,6 @@ public class App {
 
         Customer customer = customerManager.getCustomerByID(ID);
         System.out.println(customer.repr());
-    }
-
-    private static void customerMenu() {
-        System.out.println("1. Add a new customer");
-        System.out.println("2. Remove a customer");
-        System.out.println("3. Update a customer");
-        System.out.println("4. Display all customers");
-        System.out.println("5. Find customer");
-        System.out.println("0. Back to main menu");
     }
 
     private static void manageCustomer() {
@@ -168,13 +168,119 @@ public class App {
             System.out.println();
         } while (choice != 0);
     }
+    // End of Customer Management
 
-    private static void manageCards() {
+    // Card Management
+    private static void cardMenu() {
+        System.out.println("1. Add a new card");
+        System.out.println("2. Remove a card");
+        System.out.println("3. Update a card");
+        System.out.println("4. Display all cards");
+        System.out.println("5. Find card");
+        System.out.println("0. Back to main menu");
     }
 
+    private static void addCard() {
+        String cardNumber = Utils.readInsuranceCardNumber();
+        if (cardManager.containsCard(cardNumber)) {
+            System.out.println("Card number already exists.");
+            return;
+        }
+
+        System.out.print("Enter holder ID: ");
+        String holderID = Utils.readCustomerID();
+
+        System.out.print("Enter owner ID: ");
+        String ownerID = Utils.readCustomerID();
+
+        InsuranceCard card = new InsuranceCard(cardNumber, holderID, ownerID, null);
+        cardManager.addCard(card);
+        System.out.printf("Card %s added successfully.\n", cardNumber);
+    }
+
+    private static void removeCard() {
+        System.out.print("Enter card number: ");
+        String cardNumber = Utils.readString();
+
+        if (!cardManager.containsCard(cardNumber)) {
+            System.out.println("Card number does not exist.");
+            return;
+        }
+
+        cardManager.removeCard(cardNumber);
+        System.out.printf("Card %s removed successfully.\n", cardNumber);
+    }
+
+    private static void updateCard() {
+        System.out.print("Enter card number: ");
+        String cardNumber = Utils.readString();
+
+        if (!cardManager.containsCard(cardNumber)) {
+            System.out.println("Card number does not exist.");
+            return;
+        }
+
+        System.out.print("Enter new holder ID: ");
+        String holderID = Utils.readCustomerID();
+
+        System.out.print("Enter new owner ID: ");
+        String ownerID = Utils.readCustomerID();
+
+        InsuranceCard card = cardManager.getCardByNumber(cardNumber);
+        card.setHolderID(holderID);
+        card.setOwnerID(ownerID);
+        System.out.printf("Card %s updated successfully.\n", cardNumber);
+    }
+
+    private static void displayAllCards() {
+        // System.out.printf(Utils.CARD_HEADER_FORMAT, "Card Number", "Holder ID", "Owner ID", "Expiration Date");
+        // for (InsuranceCard card : cardManager.getCards()) {
+        //     System.out.println(card);
+        // }
+    }
+
+    private static void manageCards() {
+        int choice = 0;
+
+        do {
+            cardMenu();
+            System.out.print("Enter your choice: ");
+            choice = Utils.readInt();
+            System.out.println();
+
+            switch (choice) {
+                case 1:
+                    addCard();
+                    break;
+                case 2:
+                    removeCard();
+                    break;
+                case 3:
+                    updateCard();
+                    break;
+                case 4:
+                    displayAllCards();
+                    break;
+                case 5:
+                    // findCard();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+            System.out.println();
+        } while (choice != 0);
+    }
+
+    // End of Card Management
+
+    // Claim Management
     private static void manageClaims() {
     }
 
+    // End of Claim Management
     public static void main(String[] args) {
         readCustomer();
 

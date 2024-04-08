@@ -20,12 +20,7 @@ public class CustomerManager {
     }
 
     public boolean containsCustomer(String id) {
-        for (Customer customer : customers) {
-            if (customer.getId().equals(id)) {
-                return true;
-            }
-        }
-        return false;
+        return instance.customers.stream().anyMatch(customer -> customer.getId().equals(id));
     }
 
     public void addCustomer(Customer customer) {

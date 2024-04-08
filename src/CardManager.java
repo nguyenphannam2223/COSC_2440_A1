@@ -19,6 +19,10 @@ public class CardManager {
         return instance;
     }
 
+    public boolean containsCard(String cardNumber) {
+        return instance.cards.stream().anyMatch(card -> card.getCardNumber().equals(cardNumber));
+    }
+
     public void addCard(InsuranceCard card) {
         cards.add(card);
     }
