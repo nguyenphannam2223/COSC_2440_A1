@@ -1,6 +1,5 @@
-import java.util.Date;
-
-import javax.rmi.CORBA.Util;
+import java.time.LocalDate;
+import java.text.SimpleDateFormat;
 
 /**
  * @author <Phan Nam Nguyen - s3873792>
@@ -9,9 +8,9 @@ public class InsuranceCard {
     private String cardNumber;
     private String holderID;
     private String ownerID;
-    private Date exprirationDate;
+    private LocalDate exprirationDate;
 
-    public InsuranceCard(String cardNumber, String holderID, String ownerID, Date exprirationDate) {
+    public InsuranceCard(String cardNumber, String holderID, String ownerID, LocalDate exprirationDate) {
         this.cardNumber = cardNumber;
         this.holderID = holderID;
         this.ownerID = ownerID;
@@ -38,11 +37,11 @@ public class InsuranceCard {
         this.ownerID = ownerID;
     }
 
-    public Date getExprirationDate() {
+    public LocalDate getExprirationDate() {
         return exprirationDate;
     }
 
-    public void setExprirationDate(Date exprirationDate) {
+    public void setExprirationDate(LocalDate exprirationDate) {
         this.exprirationDate = exprirationDate;
     }
 
@@ -50,11 +49,12 @@ public class InsuranceCard {
         return "Insurance Card Number: " + cardNumber + "\n" +
                 "Holder ID: " + holderID + "\n" +
                 "Owner ID: " + ownerID + "\n" +
-                "Expiration Date: " + exprirationDate + "\n";
+                "Expiration LocalDate: " + exprirationDate + "\n";
     }
 
     @Override
     public String toString() {
-        return String.format(Utils.CARD_RECORD_FORMAT, cardNumber, holderID, ownerID, exprirationDate);
+        return String.format(Utils.CARD_RECORD_FORMAT, cardNumber, holderID, ownerID,
+                Utils.dateFormat.format(exprirationDate));
     }
 }

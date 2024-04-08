@@ -31,6 +31,10 @@ public class CardManager {
         cards.removeIf(card -> card.getCardNumber().equals(cardNumber));
     }
 
+    public List<InsuranceCard> getCards() {
+        return cards;
+    }
+
     public InsuranceCard getCardByNumber(String cardNumber) {
         for (InsuranceCard card : cards) {
             if (card.getCardNumber().equals(cardNumber)) {

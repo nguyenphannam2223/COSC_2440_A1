@@ -1,15 +1,22 @@
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Scanner;
 
+/**
+ * @author <Phan Nam Nguyen - s3873792>
+ */
 public class Utils {
     private static final Scanner reader = new Scanner(System.in);
+    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     public static final int CUSTOMER_ID_LENGTH = 7;
     public static final int CARD_NUMBER_LENGTH = 10;
     public static final int CLAIM_ID_LENGTH = 10;
-    public static final String CUSTOMER_HEADER_FORMAT = "%-10s\t%-15s\t%-10s\t%-20s\n";
-    public static final String CUSTOMER_RECORD_FORMAT = "%-10s\t%-15s\t%-10s\t%-20d";
+    public static final String CUSTOMER_HEADER_FORMAT = "%-10s\t%-20s\t%-10s\t%-20s\n";
+    public static final String CUSTOMER_RECORD_FORMAT = "%-10s\t%-20s\t%-10s\t%-20d";
 
     public static final String CARD_HEADER_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
     public static final String CARD_RECORD_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
@@ -22,10 +29,10 @@ public class Utils {
         return ID.matches("[0-9]{" + length + "}");
     }
 
-    public static String readCustomerID() {
+    public static String readCustomerID(String message) {
         String customerID = "";
         do {
-            System.out.print("Enter customer ID (7 numbers): ");
+            System.out.print(message);
             customerID = reader.nextLine();
         } while (!isValidID(customerID, CUSTOMER_ID_LENGTH));
 
@@ -62,6 +69,17 @@ public class Utils {
 
     public static String readString() {
         return reader.nextLine();
+    }
+
+    public static LocalDate readDate() {
+        System.out.println("Enter expiration year: ");
+        int year = readInt();
+        System.out.println("Enter expiration month: ");
+        int month = readInt();
+        System.out.println("Enter expiration day: ");
+        int day = readInt();
+
+        return LocalDate.of(year, month, day);
     }
 
     public static PrintWriter getFileWriter(String fileName) {

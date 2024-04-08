@@ -1,6 +1,10 @@
 import java.io.PrintWriter;
+import java.time.LocalDate;
 import java.util.Scanner;
 
+/**
+ * @author <Phan Nam Nguyen - s3873792>
+ */
 public class App {
     private static CustomerManager customerManager = CustomerManager.getInstance();
     private static ClaimProcessManager claimProcessManager = ClaimProcessManager.getInstance();
@@ -55,7 +59,7 @@ public class App {
     }
 
     private static void addCustomer() {
-        String ID = Utils.readCustomerID();
+        String ID = Utils.readCustomerID("Enter customer ID: ");
         if (customerManager.containsCustomer(ID)) {
             System.out.println("Customer ID already exists.");
             return;
@@ -123,7 +127,7 @@ public class App {
     }
 
     private static void findCustomer() {
-        String ID = Utils.readCustomerID();
+        String ID = Utils.readCustomerID("Enter customer ID: ");
 
         if (!customerManager.containsCustomer(ID)) {
             System.out.println("Customer ID does not exist.");
@@ -187,13 +191,21 @@ public class App {
             return;
         }
 
-        System.out.print("Enter holder ID: ");
-        String holderID = Utils.readCustomerID();
+        String holderID = Utils.readCustomerID("Enter holder ID: ");
+        while (!customerManager.containsCustomer(holderID)) {
+            System.out.println("Holder ID does not exist.");
+            holderID = Utils.readCustomerID("Enter holder ID: ");
+        }
 
-        System.out.print("Enter owner ID: ");
-        String ownerID = Utils.readCustomerID();
+        String ownerID = Utils.readCustomerID("Enter owner ID: ");
+        while (!customerManager.containsCustomer(ownerID)) {
+            System.out.println("Owner ID does not exist.");
+            ownerID = Utils.readCustomerID("Enter owner ID: ");
+        }
 
-        InsuranceCard card = new InsuranceCard(cardNumber, holderID, ownerID, null);
+        LocalDate expirationDate = Utils.readDate();
+
+        InsuranceCard card = new InsuranceCard(cardNumber, holderID, ownerID, expirationDate);
         cardManager.addCard(card);
         System.out.printf("Card %s added successfully.\n", cardNumber);
     }
@@ -221,10 +233,10 @@ public class App {
         }
 
         System.out.print("Enter new holder ID: ");
-        String holderID = Utils.readCustomerID();
+        String holderID = Utils.readCustomerID("Enter customer ID: ");
 
         System.out.print("Enter new owner ID: ");
-        String ownerID = Utils.readCustomerID();
+        String ownerID = Utils.readCustomerID("Enter customer ID: ");
 
         InsuranceCard card = cardManager.getCardByNumber(cardNumber);
         card.setHolderID(holderID);
@@ -233,10 +245,22 @@ public class App {
     }
 
     private static void displayAllCards() {
-        // System.out.printf(Utils.CARD_HEADER_FORMAT, "Card Number", "Holder ID", "Owner ID", "Expiration Date");
-        // for (InsuranceCard card : cardManager.getCards()) {
-        //     System.out.println(card);
-        // }
+        System.out.printf(Utils.CARD_HEADER_FORMAT, "Card Number", "Holder ID", "Owner ID", "Expiration LocalDate");
+        for (InsuranceCard card : cardManager.getCards()) {
+            System.out.println(card);
+        }
+    }
+
+    private static void findCard() {
+        String cardNumber = Utils.readInsuranceCardNumber();
+
+        if (!cardManager.containsCard(cardNumber)) {
+            System.out.println("Card number does not exist.");
+            return;
+        }
+
+        InsuranceCard card = cardManager.getCardByNumber(cardNumber);
+        System.out.println(card.repr());
     }
 
     private static void manageCards() {
@@ -262,7 +286,7 @@ public class App {
                     displayAllCards();
                     break;
                 case 5:
-                    // findCard();
+                    findCard();
                     break;
                 case 0:
                     break;

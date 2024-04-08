@@ -1,4 +1,4 @@
-import java.util.Date;
+import java.util.LocalDate;
 import java.util.List;
 
 /**
@@ -6,9 +6,9 @@ import java.util.List;
  */
 public class Claim {
     private String claimID;
-    private Date claimDate;
+    private LocalDate claimDate;
     private String cardNumber;
-    private Date examDate;
+    private LocalDate examDate;
     private List<String> documents;
     private double claimAmount;
     private String status;
@@ -22,7 +22,7 @@ public class Claim {
         this.receiverBankInfo = receiverBankInfo;
     }
 
-    public Claim(String claimID, Date claimDate, String cardNumber, Date examDate, List<String> documents,
+    public Claim(String claimID, LocalDate claimDate, String cardNumber, LocalDate examDate, List<String> documents,
             double claimAmount, String status, String receiverBankInfo) {
         this.claimID = claimID;
         this.claimDate = claimDate;
@@ -38,7 +38,7 @@ public class Claim {
         return claimID;
     }
 
-    public Date getClaimDate() {
+    public LocalDate getClaimDate() {
         return claimDate;
     }
 
@@ -46,7 +46,7 @@ public class Claim {
         return cardNumber;
     }
 
-    public Date getExamDate() {
+    public LocalDate getExamDate() {
         return examDate;
     }
 
@@ -70,7 +70,7 @@ public class Claim {
         this.claimID = claimID;
     }
 
-    public void setClaimDate(Date claimDate) {
+    public void setClaimDate(LocalDate claimDate) {
         this.claimDate = claimDate;
     }
 
@@ -78,7 +78,7 @@ public class Claim {
         this.cardNumber = cardNumber;
     }
 
-    public void setExamDate(Date examDate) {
+    public void setExamDate(LocalDate examDate) {
         this.examDate = examDate;
     }
 
