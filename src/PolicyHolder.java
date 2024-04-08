@@ -24,4 +24,14 @@ public class PolicyHolder extends Customer {
     public String getCustomerType() {
         return "Policy Holder";
     }
+
+    @Override
+    public String repr() {
+        return "Policy Holder\n"
+                + "ID: " + getId() + "\n"
+                + "Full Name: " + getFullName() + "\n"
+                + "Card Number: " + getCardNumber() + "\n"
+                + "Dependents: " + dependents + "\n"
+                + "Claims: " + getClaims();
+    }
 }

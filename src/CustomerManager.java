@@ -28,12 +28,16 @@ public class CustomerManager {
         customers.removeIf(customer -> customer.getId().equals(id));
     }
 
-    public Customer getCustomerById(String id) {
+    public Customer getCustomerByID(String id) {
         for (Customer customer : customers) {
             if (customer.getId().equals(id)) {
                 return customer;
             }
         }
         return null;
+    }
+
+    public List<Customer> getCustomers() {
+        return customers;
     }
 }

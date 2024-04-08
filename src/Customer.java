@@ -37,6 +37,28 @@ public abstract class Customer {
         claims.add(claim);
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    public void setClaims(List<String> claims) {
+        this.claims = claims;
+    }
 
     public abstract String getCustomerType();
+
+    public abstract String repr();
+
+    @Override
+    public String toString() {
+        return String.format(Utils.CUSTOMER_RECORD_FORMAT, id, fullName, cardNumber, claims.size());
+    }
 }
