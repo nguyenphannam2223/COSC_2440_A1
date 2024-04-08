@@ -28,7 +28,7 @@ public class PolicyHolder extends Customer {
     @Override
     public String repr() {
         return "Policy Holder\n"
-                + "ID: " + getId() + "\n"
+                + "ID: " + getID() + "\n"
                 + "Full Name: " + getFullName() + "\n"
                 + "Card Number: " + getCardNumber() + "\n"
                 + "Dependents: " + dependents + "\n"

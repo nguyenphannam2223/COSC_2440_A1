@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.text.SimpleDateFormat;
 
 /**
  * @author <Phan Nam Nguyen - s3873792>
@@ -37,7 +36,7 @@ public class InsuranceCard {
         this.ownerID = ownerID;
     }
 
-    public LocalDate getExprirationDate() {
+    public LocalDate getExpirationDate() {
         return exprirationDate;
     }
 
@@ -46,7 +45,8 @@ public class InsuranceCard {
     }
 
     public String repr() {
-        return "Insurance Card Number: " + cardNumber + "\n" +
+        return "Insurance Card Information\n" +
+                "Card Number: " + cardNumber + "\n" +
                 "Holder ID: " + holderID + "\n" +
                 "Owner ID: " + ownerID + "\n" +
                 "Expiration LocalDate: " + exprirationDate + "\n";
@@ -54,7 +54,6 @@ public class InsuranceCard {
 
     @Override
     public String toString() {
-        return String.format(Utils.CARD_RECORD_FORMAT, cardNumber, holderID, ownerID,
-                Utils.dateFormat.format(exprirationDate));
+        return String.format(Utils.CARD_RECORD_FORMAT, cardNumber, holderID, ownerID, exprirationDate);
     }
 }

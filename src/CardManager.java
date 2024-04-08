@@ -25,6 +25,12 @@ public class CardManager {
 
     public void addCard(InsuranceCard card) {
         cards.add(card);
+
+        for (Customer customer : CustomerManager.getInstance().getCustomers()) {
+            if (customer.getID().equals(card.getOwnerID())) {
+                customer.setCardNumber(card.getCardNumber());
+            }
+        }
     }
 
     public void removeCard(String cardNumber) {

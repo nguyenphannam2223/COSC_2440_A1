@@ -14,7 +14,7 @@ public class App {
     private static void storeCustomer() {
         PrintWriter writer = Utils.getFileWriter("customers.csv");
         for (Customer customer : customerManager.getCustomers()) {
-            writer.printf("%s,%s,%s,%s\n", customer.getId(), customer.getFullName(), customer.getCardNumber(),
+            writer.printf("%s,%s,%s,%s\n", customer.getID(), customer.getFullName(), customer.getCardNumber(),
                     customer.getCustomerType(),
                     String.join(";", customer.getClaims()));
         }
@@ -50,16 +50,17 @@ public class App {
     }
 
     private static void customerMenu() {
-        System.out.println("1. Add a new customer");
-        System.out.println("2. Remove a customer");
-        System.out.println("3. Update a customer");
-        System.out.println("4. Display all customers");
-        System.out.println("5. Find customer");
+        System.out.println("1. Add a new policy holder");
+        System.out.println("2. Add a new dependent");
+        System.out.println("3. Remove a customer");
+        System.out.println("4. Update a customer");
+        System.out.println("5. Display all customers");
+        System.out.println("6. Find customer");
         System.out.println("0. Back to main menu");
     }
 
-    private static void addCustomer() {
-        String ID = Utils.readCustomerID("Enter customer ID: ");
+    private static void addPolicyHolder() {
+        String ID = Utils.readCustomerID("Enter holder ID: ");
         if (customerManager.containsCustomer(ID)) {
             System.out.println("Customer ID already exists.");
             return;
@@ -68,30 +69,37 @@ public class App {
         System.out.print("Enter customer full name: ");
         String fullName = Utils.readString();
 
-        int choice = 0;
-        do {
-            System.out.println("Choose customer type:");
-            System.out.println("1. Policy holder");
-            System.out.println("2. Dependent");
-            System.out.print("Enter your choice: ");
-            choice = Utils.readInt();
-        } while (choice != 1 && choice != 2);
-
         Customer customer = null;
-
-        if (choice == 1) {
-            customer = new PolicyHolder(ID, fullName, null);
-        } else {
-            customer = new Dependent(ID, fullName, null);
-        }
+        customer = new PolicyHolder(ID, fullName, null);
 
         customerManager.addCustomer(customer);
         System.out.printf("Customer %s added successfully.\n", ID);
     }
 
+    private static void addDependent() {
+        String ID = Utils.readCustomerID("Enter holder ID: ");
+        while (!customerManager.containsCustomer(ID)
+                || customerManager.getCustomerByID(ID).getCustomerType().equals("2")) {
+            System.out.println("Customer ID already exists or not a holder.");
+            ID = Utils.readCustomerID("Enter holder ID: ");
+        }
+
+        String dependentID = Utils.readCustomerID("Enter dependent ID: ");
+
+        System.out.print("Enter dependant full name: ");
+        String fullName = Utils.readString();
+
+        Customer dependant = null;
+        dependant = new Dependent(dependentID, fullName, null);
+
+        ((PolicyHolder)customerManager.getCustomerByID(ID)).addDependent(dependentID);
+        customerManager.addCustomer(dependant);
+
+        System.out.printf("Customer %s added successfully.\n", dependentID);
+    }
+
     private static void removeCustomer() {
-        System.out.print("Enter customer ID: ");
-        String ID = Utils.readString();
+        String ID = Utils.readCustomerID("Enter customer ID: ");
 
         if (!customerManager.containsCustomer(ID)) {
             System.out.println("Customer ID does not exist.");
@@ -103,8 +111,7 @@ public class App {
     }
 
     private static void updateCustomer() {
-        System.out.print("Enter customer ID: ");
-        String ID = Utils.readString();
+        String ID = Utils.readCustomerID("Enter customer ID: ");
 
         if (!customerManager.containsCustomer(ID)) {
             System.out.println("Customer ID does not exist.");
@@ -120,9 +127,10 @@ public class App {
     }
 
     private static void displayAllCustomers() {
-        System.out.printf(Utils.CUSTOMER_HEADER_FORMAT, "ID", "Full Name", "Card Number", "Number of Claims");
+        System.out.printf(Utils.CUSTOMER_HEADER_FORMAT, "ID", "Full Name", "Card Number", "Number of Claims",
+                "Customer Type");
         for (Customer customer : customerManager.getCustomers()) {
-            System.out.println(customer);
+            System.out.print(customer);
         }
     }
 
@@ -149,18 +157,21 @@ public class App {
 
             switch (choice) {
                 case 1:
-                    addCustomer();
+                    addPolicyHolder();
                     break;
                 case 2:
-                    removeCustomer();
+                    addDependent();
                     break;
                 case 3:
-                    updateCustomer();
+                    removeCustomer();
                     break;
                 case 4:
-                    displayAllCustomers();
+                    updateCustomer();
                     break;
                 case 5:
+                    displayAllCustomers();
+                    break;
+                case 6:
                     findCustomer();
                     break;
                 case 0:
@@ -175,6 +186,29 @@ public class App {
     // End of Customer Management
 
     // Card Management
+    private static void storeCard() {
+        PrintWriter writer = Utils.getFileWriter(Utils.INSURANCE_DATA_FILE);
+        for (InsuranceCard card : cardManager.getCards()) {
+            writer.printf("%s,%s,%s,%s\n", card.getCardNumber(), card.getHolderID(), card.getOwnerID(),
+                    card.getExpirationDate());
+        }
+
+        writer.close();
+    }
+
+    private static void readCard() {
+        Scanner fileReader = Utils.getFileReader(Utils.INSURANCE_DATA_FILE);
+        while (fileReader.hasNextLine()) {
+            String[] data = fileReader.nextLine().split(",");
+            String cardNumber = data[0];
+            String holderID = data[1];
+            String ownerID = data[2];
+            LocalDate expirationDate = LocalDate.parse(data[3]);
+            InsuranceCard card = new InsuranceCard(cardNumber, holderID, ownerID, expirationDate);
+            cardManager.addCard(card);
+        }
+    }
+
     private static void cardMenu() {
         System.out.println("1. Add a new card");
         System.out.println("2. Remove a card");
@@ -207,6 +241,7 @@ public class App {
 
         InsuranceCard card = new InsuranceCard(cardNumber, holderID, ownerID, expirationDate);
         cardManager.addCard(card);
+
         System.out.printf("Card %s added successfully.\n", cardNumber);
     }
 
@@ -245,7 +280,7 @@ public class App {
     }
 
     private static void displayAllCards() {
-        System.out.printf(Utils.CARD_HEADER_FORMAT, "Card Number", "Holder ID", "Owner ID", "Expiration LocalDate");
+        System.out.printf(Utils.CARD_HEADER_FORMAT, "Card Number", "Holder ID", "Owner ID", "Expiration Date");
         for (InsuranceCard card : cardManager.getCards()) {
             System.out.println(card);
         }
@@ -307,6 +342,7 @@ public class App {
     // End of Claim Management
     public static void main(String[] args) {
         readCustomer();
+        readCard();
 
         int choice = 0;
 
@@ -339,6 +375,7 @@ public class App {
         } while (choice != 0);
 
         storeCustomer();
+        storeCard();
         System.out.println("Goodbye!");
     }
 }

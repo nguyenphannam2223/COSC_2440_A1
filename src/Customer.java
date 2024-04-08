@@ -17,7 +17,7 @@ public abstract class Customer {
         this.claims = new ArrayList<>();
     }
 
-    public String getId() {
+    public String getID() {
         return id;
     }
 
@@ -59,6 +59,7 @@ public abstract class Customer {
 
     @Override
     public String toString() {
-        return String.format(Utils.CUSTOMER_RECORD_FORMAT, id, fullName, cardNumber, claims.size());
+        String type = getCustomerType().equals("1") ? "Policy Holder" : "Dependent";
+        return String.format(Utils.CUSTOMER_RECORD_FORMAT, id, fullName, cardNumber, claims.size(), type);
     }
 }

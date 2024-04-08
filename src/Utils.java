@@ -1,7 +1,6 @@
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -10,20 +9,19 @@ import java.util.Scanner;
  */
 public class Utils {
     private static final Scanner reader = new Scanner(System.in);
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public static final int CUSTOMER_ID_LENGTH = 7;
     public static final int CARD_NUMBER_LENGTH = 10;
     public static final int CLAIM_ID_LENGTH = 10;
-    public static final String CUSTOMER_HEADER_FORMAT = "%-10s\t%-20s\t%-10s\t%-20s\n";
-    public static final String CUSTOMER_RECORD_FORMAT = "%-10s\t%-20s\t%-10s\t%-20d";
+    public static final String CUSTOMER_HEADER_FORMAT = "%-10s\t%-20s\t%-10s\t%-20s\t%-20s\n";
+    public static final String CUSTOMER_RECORD_FORMAT = "%-10s\t%-20s\t%-10s\t%-20d\t%-20s\n";
 
     public static final String CARD_HEADER_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
     public static final String CARD_RECORD_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
 
     public static final String CUSTOMER_DATA_FILE = "customers.csv";
     public static final String CLAIM_DATA_FILE = "claims.csv";
-    public static final String INSURANCE_DATA_FILE = "insurances.csv";
+    public static final String INSURANCE_DATA_FILE = "cards.csv";
 
     private static boolean isValidID(String ID, int length) {
         return ID.matches("[0-9]{" + length + "}");
@@ -72,11 +70,11 @@ public class Utils {
     }
 
     public static LocalDate readDate() {
-        System.out.println("Enter expiration year: ");
+        System.out.print("Enter expiration year: ");
         int year = readInt();
-        System.out.println("Enter expiration month: ");
+        System.out.print("Enter expiration month: ");
         int month = readInt();
-        System.out.println("Enter expiration day: ");
+        System.out.print("Enter expiration day: ");
         int day = readInt();
 
         return LocalDate.of(year, month, day);

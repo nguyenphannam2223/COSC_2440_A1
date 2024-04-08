@@ -20,7 +20,7 @@ public class CustomerManager {
     }
 
     public boolean containsCustomer(String id) {
-        return instance.customers.stream().anyMatch(customer -> customer.getId().equals(id));
+        return instance.customers.stream().anyMatch(customer -> customer.getID().equals(id));
     }
 
     public void addCustomer(Customer customer) {
@@ -28,12 +28,12 @@ public class CustomerManager {
     }
 
     public void removeCustomer(String id) {
-        customers.removeIf(customer -> customer.getId().equals(id));
+        customers.removeIf(customer -> customer.getID().equals(id));
     }
 
     public Customer getCustomerByID(String id) {
         for (Customer customer : customers) {
-            if (customer.getId().equals(id)) {
+            if (customer.getID().equals(id)) {
                 return customer;
             }
         }
@@ -42,5 +42,27 @@ public class CustomerManager {
 
     public List<Customer> getCustomers() {
         return customers;
+    }
+
+    public List<Customer> getPolicyHolders() {
+        List<Customer> policyHolders = new ArrayList<>();
+        for (Customer customer : customers) {
+            if (customer.getCustomerType().equals("1")) {
+                policyHolders.add(customer);
+            }
+        }
+
+        return policyHolders;
+    }
+
+    public List<Customer> getDependants() {
+        List<Customer> dependants = new ArrayList<>();
+        for (Customer customer : customers) {
+            if (customer.getCustomerType().equals("2")) {
+                dependants.add(customer);
+            }
+        }
+
+        return dependants;
     }
 }

@@ -14,7 +14,7 @@ public class Dependent extends Customer {
     @Override
     public String repr() {
         return "Dependent\n"
-                + "ID: " + getId() + "\n"
+                + "ID: " + getID() + "\n"
                 + "Full Name: " + getFullName() + "\n"
                 + "Card Number: " + getCardNumber() + "\n"
                 + "Claims: " + getClaims();
