@@ -65,4 +65,13 @@ public class CustomerManager {
 
         return dependants;
     }
+
+    public void sortByID() {
+        customers.sort((c1, c2) -> c1.getID().compareTo(c2.getID()));
+    }
+
+    public void sortByName() {
+        customers.sort((c1, c2) -> c1.getFullName().compareTo(c2.getFullName()));
+    }
 }
+

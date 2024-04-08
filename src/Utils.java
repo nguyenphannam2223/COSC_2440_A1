@@ -17,10 +17,10 @@ public class Utils {
     public static final String CUSTOMER_RECORD_FORMAT = "%-10s\t%-20s\t%-10s\t%-20d\t%-20s\n";
 
     public static final String CARD_HEADER_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
-    public static final String CARD_RECORD_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
+    public static final String CARD_RECORD_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s";
 
     public static final String CLAIM_HEADER_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\t%-15s\t%-15s\t%-15s\n";
-    public static final String CLAIM_RECORD_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\t%-15.2f\t%-15s\t%-15s\n";
+    public static final String CLAIM_RECORD_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\t%-15.2f\t%-15s\t%-15s";
 
     public static final String CUSTOMER_DATA_FILE = "customers.csv";
     public static final String CLAIM_DATA_FILE = "claims.csv";

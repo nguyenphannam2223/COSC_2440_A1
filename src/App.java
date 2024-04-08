@@ -58,6 +58,8 @@ public class App {
         System.out.println("4. Update a customer");
         System.out.println("5. Display all customers");
         System.out.println("6. Find customer");
+        System.out.println("7. Sort customers by ID");
+        System.out.println("8. Sort customers by name");
         System.out.println("0. Back to main menu");
     }
 
@@ -92,7 +94,7 @@ public class App {
         Customer dependant = null;
         dependant = new Dependent(dependentID, fullName, null);
 
-        ((PolicyHolder)customerManager.getCustomerByID(ID)).addDependent(dependentID);
+        ((PolicyHolder) customerManager.getCustomerByID(ID)).addDependent(dependentID);
         customerManager.addCustomer(dependant);
 
         System.out.printf("Customer %s added successfully.\n", dependentID);
@@ -172,6 +174,14 @@ public class App {
                 case 6:
                     findCustomer();
                     break;
+                case 7:
+                    customerManager.sortByID();
+                    System.out.println("Customers sorted by ID.");
+                    break;
+                case 8:
+                    customerManager.sortByName();
+                    System.out.println("Customers sorted by name.");
+                    break;
                 case 0:
                     break;
                 default:
@@ -213,6 +223,8 @@ public class App {
         System.out.println("3. Update a card");
         System.out.println("4. Display all cards");
         System.out.println("5. Find card");
+        System.out.println("6. Sort cards by card number");
+        System.out.println("7. Sort cards by expiration date");
         System.out.println("0. Back to main menu");
     }
 
@@ -318,6 +330,14 @@ public class App {
                 case 5:
                     findCard();
                     break;
+                case 6:
+                    cardManager.sortByID();
+                    System.out.println("Cards sorted by card number.");
+                    break;
+                case 7:
+                    cardManager.sortByExpirationDate();
+                    System.out.println("Cards sorted by expiration date.");
+                    break;
                 case 0:
                     break;
                 default:
@@ -342,7 +362,7 @@ public class App {
 
         writer.close();
     }
-    
+
     private static void readClaim() {
         Scanner fileReader = Utils.getFileReader(Utils.CLAIM_DATA_FILE);
         while (fileReader.hasNextLine()) {
@@ -368,6 +388,8 @@ public class App {
         System.out.println("3. Remove a claim");
         System.out.println("4. Display all claims");
         System.out.println("5. Find claim");
+        System.out.println("6. Sort claims by claim ID");
+        System.out.println("7. Sort claims by amount");
         System.out.println("0. Back to main menu");
     }
 
@@ -406,7 +428,6 @@ public class App {
 
             status = Utils.readInt("Enter your choice: ");
         } while (status < 1 || status > 3);
-
 
         String receiverBankName = Utils.readString("Enter receiver bank name: ");
         String receiverBankAccount = Utils.readString("Enter receiver account holder name: ");
@@ -498,6 +519,14 @@ public class App {
                     break;
                 case 5:
                     findClaim();
+                    break;
+                case 6:
+                    claimProcessManager.sortByID();
+                    System.out.println("Claims sorted by claim ID.");
+                    break;
+                case 7:
+                    claimProcessManager.sortByAmount();
+                    System.out.println("Claims sorted by amount.");
                     break;
                 case 0:
                     break;

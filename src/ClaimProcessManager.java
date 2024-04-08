@@ -62,4 +62,14 @@ public class ClaimProcessManager {
     public List<Claim> getClaims() {
         return claims;
     }
+
+    public void sortByID() {
+        claims.sort((claim1, claim2) -> claim1.getClaimID().compareTo(claim2.getClaimID()));
+    }
+
+    public void sortByAmount() {
+        claims.sort((claim1, claim2) -> Double.compare(claim1.getClaimAmount(), claim2.getClaimAmount()));
+    }
 }
+
+

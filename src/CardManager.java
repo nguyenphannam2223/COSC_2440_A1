@@ -49,4 +49,12 @@ public class CardManager {
         }
         return null;
     }
+
+    public void sortByID() {
+        cards.sort((card1, card2) -> card1.getOwnerID().compareTo(card2.getOwnerID()));
+    }
+
+    public void sortByExpirationDate() {
+        cards.sort((card1, card2) -> card1.getExpirationDate().compareTo(card2.getExpirationDate()));
+    }
 }
