@@ -11,10 +11,10 @@ public class Claim {
     private LocalDate examDate;
     private List<String> documents;
     private double claimAmount;
-    private String status;
+    private int status;
     private String receiverBankInfo;
 
-    public Claim(String claimID, String cardNumber, double claimAmount, String status, String receiverBankInfo) {
+    public Claim(String claimID, String cardNumber, double claimAmount, int status, String receiverBankInfo) {
         this.claimID = claimID;
         this.cardNumber = cardNumber;
         this.claimAmount = claimAmount;
@@ -23,7 +23,7 @@ public class Claim {
     }
 
     public Claim(String claimID, LocalDate claimDate, String cardNumber, LocalDate examDate, List<String> documents,
-            double claimAmount, String status, String receiverBankInfo) {
+            double claimAmount, int status, String receiverBankInfo) {
         this.claimID = claimID;
         this.claimDate = claimDate;
         this.cardNumber = cardNumber;
@@ -58,7 +58,7 @@ public class Claim {
         return claimAmount;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
@@ -90,7 +90,7 @@ public class Claim {
         this.claimAmount = claimAmount;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -110,8 +110,8 @@ public class Claim {
     }
 
     @Override
-    public String toString() {  
-        return String.format(Utils.CLAIM_RECORD_FORMAT, claimID, claimDate, cardNumber, examDate, claimAmount, status,
+    public String toString() {
+        return String.format(Utils.CLAIM_RECORD_FORMAT, claimID, claimDate, cardNumber, examDate, claimAmount, getStatusString(status),
                 receiverBankInfo);
     }
 
@@ -122,7 +122,20 @@ public class Claim {
                 "Exam Date: " + examDate + "\n" +
                 "Documents: " + documents + "\n" +
                 "Claim Amount: " + claimAmount + "\n" +
-                "Status: " + status + "\n" +
+                "Status: " + getStatusString(status) + "\n" +
                 "Receiver Bank Info: " + receiverBankInfo + "\n";
+    }
+
+    public static String getStatusString(int status) {
+        switch (status) {
+            case 1:
+                return "New";
+            case 2:
+                return "Processing";
+            case 3:
+                return "Done";
+            default:
+                return "Unknown";
+        }
     }
 }

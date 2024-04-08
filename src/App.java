@@ -331,6 +331,37 @@ public class App {
     // End of Card Management
 
     // Claim Management
+    private static void storeClaim() {
+        PrintWriter writer = Utils.getFileWriter(Utils.CLAIM_DATA_FILE);
+        for (Claim claim : claimProcessManager.getClaims()) {
+            writer.printf("%s,%s,%s,%s,%s,%s,%s,%s\n", claim.getClaimID(), claim.getClaimDate(), claim.getCardNumber(),
+                    claim.getExamDate(), String.join(";", claim.getDocuments()), claim.getClaimAmount(),
+                    claim.getStatus(),
+                    claim.getReceiverBankInfo());
+        }
+
+        writer.close();
+    }
+    
+    private static void readClaim() {
+        Scanner fileReader = Utils.getFileReader(Utils.CLAIM_DATA_FILE);
+        while (fileReader.hasNextLine()) {
+            String[] data = fileReader.nextLine().split(",");
+            String claimID = data[0];
+            LocalDate claimDate = LocalDate.parse(data[1]);
+            String cardNumber = data[2];
+            LocalDate examDate = LocalDate.parse(data[3]);
+            List<String> documents = Arrays.asList(data[4].split(";"));
+            double claimAmount = Double.parseDouble(data[5]);
+            int status = Integer.parseInt(data[6]);
+            String receiverBankInfo = data[7];
+
+            Claim claim = new Claim(claimID, claimDate, cardNumber, examDate, documents, claimAmount, status,
+                    receiverBankInfo);
+            claimProcessManager.addClaim(claim);
+        }
+    }
+
     private static void claimMenu() {
         System.out.println("1. Add a new claim");
         System.out.println("2. Update a claim");
@@ -366,28 +397,16 @@ public class App {
 
         double claimAmount = Utils.readDouble("Enter claim amount: ");
 
-        int choice = 0;
+        int status = 0;
         do {
             System.out.println("Choose status: ");
             System.out.println("1. New");
             System.out.println("2. Processing");
             System.out.println("3. Done");
 
-            choice = Utils.readInt("Enter your choice: ");
-        } while (choice < 1 || choice > 3);
+            status = Utils.readInt("Enter your choice: ");
+        } while (status < 1 || status > 3);
 
-        String status = "";
-        switch (choice) {
-            case 1:
-                status = "New";
-                break;
-            case 2:
-                status = "Processing";
-                break;
-            case 3:
-                status = "Done";
-                break;
-        }
 
         String receiverBankName = Utils.readString("Enter receiver bank name: ");
         String receiverBankAccount = Utils.readString("Enter receiver account holder name: ");
@@ -410,28 +429,15 @@ public class App {
 
         Claim claim = claimProcessManager.getClaimByID(claimID);
 
-        int choice = 0;
+        int status = 0;
         do {
             System.out.println("Choose status: ");
             System.out.println("1. New");
             System.out.println("2. Processing");
             System.out.println("3. Done");
 
-            choice = Utils.readInt("Enter your choice: ");
-        } while (choice < 1 || choice > 3);
-
-        String status = "";
-        switch (choice) {
-            case 1:
-                status = "New";
-                break;
-            case 2:
-                status = "Processing";
-                break;
-            case 3:
-                status = "Done";
-                break;
-        }
+            status = Utils.readInt("Enter your choice: ");
+        } while (status < 1 || status > 3);
 
         claim.setStatus(status);
         claimProcessManager.updateClaim(claim);
@@ -503,10 +509,21 @@ public class App {
         } while (choice != 0);
     }
 
-    // End of Claim Management
-    public static void main(String[] args) {
+    private static void populate() {
         readCustomer();
         readCard();
+        readClaim();
+    }
+
+    private static void serialize() {
+        storeCustomer();
+        storeCard();
+        storeClaim();
+    }
+
+    // End of Claim Management
+    public static void main(String[] args) {
+        populate();
 
         int choice = 0;
 
@@ -537,8 +554,7 @@ public class App {
             System.out.println();
         } while (choice != 0);
 
-        storeCustomer();
-        storeCard();
+        serialize();
         System.out.println("Goodbye!");
     }
 }
