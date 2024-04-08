@@ -108,4 +108,21 @@ public class Claim {
         this.status = claim.getStatus();
         this.receiverBankInfo = claim.getReceiverBankInfo();
     }
+
+    @Override
+    public String toString() {  
+        return String.format(Utils.CLAIM_RECORD_FORMAT, claimID, claimDate, cardNumber, examDate, claimAmount, status,
+                receiverBankInfo);
+    }
+
+    public String repr() {
+        return "Claim ID: " + claimID + "\n" +
+                "Claim Date: " + claimDate + "\n" +
+                "Card Number: " + cardNumber + "\n" +
+                "Exam Date: " + examDate + "\n" +
+                "Documents: " + documents + "\n" +
+                "Claim Amount: " + claimAmount + "\n" +
+                "Status: " + status + "\n" +
+                "Receiver Bank Info: " + receiverBankInfo + "\n";
+    }
 }

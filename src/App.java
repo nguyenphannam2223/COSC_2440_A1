@@ -1,5 +1,7 @@
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -66,8 +68,7 @@ public class App {
             return;
         }
 
-        System.out.print("Enter customer full name: ");
-        String fullName = Utils.readString();
+        String fullName = Utils.readString("Enter customer full name: ");
 
         Customer customer = null;
         customer = new PolicyHolder(ID, fullName, null);
@@ -86,8 +87,7 @@ public class App {
 
         String dependentID = Utils.readCustomerID("Enter dependent ID: ");
 
-        System.out.print("Enter dependant full name: ");
-        String fullName = Utils.readString();
+        String fullName = Utils.readString("Enter dependant full name: ");
 
         Customer dependant = null;
         dependant = new Dependent(dependentID, fullName, null);
@@ -118,8 +118,7 @@ public class App {
             return;
         }
 
-        System.out.print("Enter new full name: ");
-        String fullName = Utils.readString();
+        String fullName = Utils.readString("Enter new full name: ");
 
         Customer customer = customerManager.getCustomerByID(ID);
         customer.setFullName(fullName);
@@ -151,8 +150,7 @@ public class App {
 
         do {
             customerMenu();
-            System.out.print("Enter your choice: ");
-            choice = Utils.readInt();
+            choice = Utils.readInt("Enter your choice: ");
             System.out.println();
 
             switch (choice) {
@@ -237,7 +235,7 @@ public class App {
             ownerID = Utils.readCustomerID("Enter owner ID: ");
         }
 
-        LocalDate expirationDate = Utils.readDate();
+        LocalDate expirationDate = Utils.readDate("expiration");
 
         InsuranceCard card = new InsuranceCard(cardNumber, holderID, ownerID, expirationDate);
         cardManager.addCard(card);
@@ -246,8 +244,7 @@ public class App {
     }
 
     private static void removeCard() {
-        System.out.print("Enter card number: ");
-        String cardNumber = Utils.readString();
+        String cardNumber = Utils.readInsuranceCardNumber();
 
         if (!cardManager.containsCard(cardNumber)) {
             System.out.println("Card number does not exist.");
@@ -259,8 +256,7 @@ public class App {
     }
 
     private static void updateCard() {
-        System.out.print("Enter card number: ");
-        String cardNumber = Utils.readString();
+        String cardNumber = Utils.readInsuranceCardNumber();
 
         if (!cardManager.containsCard(cardNumber)) {
             System.out.println("Card number does not exist.");
@@ -303,8 +299,7 @@ public class App {
 
         do {
             cardMenu();
-            System.out.print("Enter your choice: ");
-            choice = Utils.readInt();
+            choice = Utils.readInt("Enter your choice: ");
             System.out.println();
 
             switch (choice) {
@@ -336,7 +331,176 @@ public class App {
     // End of Card Management
 
     // Claim Management
+    private static void claimMenu() {
+        System.out.println("1. Add a new claim");
+        System.out.println("2. Update a claim");
+        System.out.println("3. Remove a claim");
+        System.out.println("4. Display all claims");
+        System.out.println("5. Find claim");
+        System.out.println("0. Back to main menu");
+    }
+
+    private static void addClaim() {
+        String claimID = Utils.readClaimID();
+        if (claimProcessManager.containsClaim(claimID)) {
+            System.out.println("Claim ID already exists.");
+            return;
+        }
+
+        LocalDate claimDate = Utils.readDate("claim");
+
+        String cardNumber = Utils.readInsuranceCardNumber();
+        while (!cardManager.containsCard(cardNumber)) {
+            System.out.println("Card number does not exist.");
+            cardNumber = Utils.readInsuranceCardNumber();
+        }
+
+        LocalDate examDate = Utils.readDate("exam");
+
+        String documents = Utils.readString("Enter documents (separated by comma): ");
+        List<String> documentList = Arrays.asList(documents.split(","));
+        for (int i = 0; i < documentList.size(); i++) {
+            String name = String.format("%s_%s_%s.pdf", cardNumber, claimID, documentList.get(i));
+            documentList.set(i, name);
+        }
+
+        double claimAmount = Utils.readDouble("Enter claim amount: ");
+
+        int choice = 0;
+        do {
+            System.out.println("Choose status: ");
+            System.out.println("1. New");
+            System.out.println("2. Processing");
+            System.out.println("3. Done");
+
+            choice = Utils.readInt("Enter your choice: ");
+        } while (choice < 1 || choice > 3);
+
+        String status = "";
+        switch (choice) {
+            case 1:
+                status = "New";
+                break;
+            case 2:
+                status = "Processing";
+                break;
+            case 3:
+                status = "Done";
+                break;
+        }
+
+        String receiverBankName = Utils.readString("Enter receiver bank name: ");
+        String receiverBankAccount = Utils.readString("Enter receiver account holder name: ");
+        String receiverBankNumber = Utils.readString("Enter receiver account number: ");
+
+        String receiverBankInfo = String.format("%s-%s-%s", receiverBankName, receiverBankAccount, receiverBankNumber);
+
+        Claim claim = new Claim(claimID, claimDate, cardNumber, examDate, documentList, claimAmount, status,
+                receiverBankInfo);
+        claimProcessManager.addClaim(claim);
+        System.out.printf("Claim %s added successfully.\n", claimID);
+    }
+
+    private static void updateClaim() {
+        String claimID = Utils.readClaimID();
+        if (!claimProcessManager.containsClaim(claimID)) {
+            System.out.println("Claim ID does not exist.");
+            return;
+        }
+
+        Claim claim = claimProcessManager.getClaimByID(claimID);
+
+        int choice = 0;
+        do {
+            System.out.println("Choose status: ");
+            System.out.println("1. New");
+            System.out.println("2. Processing");
+            System.out.println("3. Done");
+
+            choice = Utils.readInt("Enter your choice: ");
+        } while (choice < 1 || choice > 3);
+
+        String status = "";
+        switch (choice) {
+            case 1:
+                status = "New";
+                break;
+            case 2:
+                status = "Processing";
+                break;
+            case 3:
+                status = "Done";
+                break;
+        }
+
+        claim.setStatus(status);
+        claimProcessManager.updateClaim(claim);
+
+        System.out.printf("Claim %s updated successfully.\n", claimID);
+    }
+
+    private static void removeClaim() {
+        String claimID = Utils.readClaimID();
+        if (!claimProcessManager.containsClaim(claimID)) {
+            System.out.println("Claim ID does not exist.");
+            return;
+        }
+
+        claimProcessManager.removeClaim(claimID);
+        System.out.printf("Claim %s removed successfully.\n", claimID);
+    }
+
+    private static void displayAllClaims() {
+        System.out.printf(Utils.CLAIM_HEADER_FORMAT, "Claim ID", "Claim Date", "Card Number", "Exam Date",
+                "Claim Amount", "Status", "Receiver Bank Info");
+        for (Claim claim : claimProcessManager.getClaims()) {
+            System.out.println(claim);
+        }
+    }
+
+    private static void findClaim() {
+        String claimID = Utils.readClaimID();
+        if (!claimProcessManager.containsClaim(claimID)) {
+            System.out.println("Claim ID does not exist.");
+            return;
+        }
+
+        Claim claim = claimProcessManager.getClaimByID(claimID);
+        System.out.println(claim.repr());
+    }
+
     private static void manageClaims() {
+        int choice = 0;
+
+        do {
+            claimMenu();
+            choice = Utils.readInt("Enter your choice: ");
+            System.out.println();
+
+            switch (choice) {
+                case 1:
+                    addClaim();
+                    break;
+                case 2:
+                    updateClaim();
+                    break;
+                case 3:
+                    removeClaim();
+                    break;
+                case 4:
+                    displayAllClaims();
+                    break;
+                case 5:
+                    findClaim();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+            System.out.println();
+        } while (choice != 0);
     }
 
     // End of Claim Management
@@ -351,8 +515,7 @@ public class App {
             System.out.println("2. Manage cards");
             System.out.println("3. Manage claims");
             System.out.println("0. Exit");
-            System.out.print("Enter your choice: ");
-            choice = Utils.readInt();
+            choice = Utils.readInt("Enter your choice: ");
             System.out.println();
 
             switch (choice) {

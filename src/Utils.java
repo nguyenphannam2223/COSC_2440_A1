@@ -19,6 +19,9 @@ public class Utils {
     public static final String CARD_HEADER_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
     public static final String CARD_RECORD_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\n";
 
+    public static final String CLAIM_HEADER_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\t%-15s\t%-15s\t%-15s\n";
+    public static final String CLAIM_RECORD_FORMAT = "%-15s\t%-15s\t%-15s\t%-15s\t%-15.2f\t%-15s\t%-15s\n";
+
     public static final String CUSTOMER_DATA_FILE = "customers.csv";
     public static final String CLAIM_DATA_FILE = "claims.csv";
     public static final String INSURANCE_DATA_FILE = "cards.csv";
@@ -54,28 +57,28 @@ public class Utils {
             claimID = reader.nextLine();
         } while (!isValidID(claimID, CLAIM_ID_LENGTH));
 
-        return claimID;
+        return "f-" + claimID;
     }
 
-    public static int readInt() {
+    public static int readInt(String message) {
+        System.out.print(message);
         return Integer.parseInt(reader.nextLine());
     }
 
-    public static double readDouble() {
+    public static double readDouble(String message) {
+        System.out.print(message);
         return Double.parseDouble(reader.nextLine());
     }
 
-    public static String readString() {
+    public static String readString(String message) {
+        System.out.print(message);
         return reader.nextLine();
     }
 
-    public static LocalDate readDate() {
-        System.out.print("Enter expiration year: ");
-        int year = readInt();
-        System.out.print("Enter expiration month: ");
-        int month = readInt();
-        System.out.print("Enter expiration day: ");
-        int day = readInt();
+    public static LocalDate readDate(String message) {
+        int year = readInt("Enter " + message + " year: ");
+        int month = readInt("Enter " + message + " month: ");
+        int day = readInt("Enter " + message + " day: ");
 
         return LocalDate.of(year, month, day);
     }
